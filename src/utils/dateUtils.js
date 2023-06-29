@@ -41,7 +41,7 @@ export function getMonthDaysWithIndent(month) {
     return [...indentDays, ...month.days]
 }
 
-export function checkDateRange(params) {
+export function checkDateInRange(params) {
     const year = parseInt(params.year)
     const month = parseInt(params.month)
     const day = parseInt(params.day)
