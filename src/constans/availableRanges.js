@@ -1,0 +1,1 @@
+export const yearRange = [1960, 2049]
