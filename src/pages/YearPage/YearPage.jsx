@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getYearMonths } from '../../utils/yearUtils'
-import cl from './YearPage.module.scss'
+import { getYearMonths, checkYearInRange } from '../../utils/yearUtils'
 import { YearMonth } from '../../components/components'
+import cl from './YearPage.module.scss'
 
 const YearPage = () => {
   const params = useParams()
@@ -10,14 +10,13 @@ const YearPage = () => {
 
   const year = parseInt(params.year)
   useEffect(() => {
-    if (isNaN(year) || year < 1960) {
-      navigate('/1960')
+    const isInRange = checkYearInRange(year)
+    if (isInRange) {
+      navigate(isInRange)
     }
   }, [year])
 
-  const months = useMemo(() => {
-    return (getYearMonths(year))
-  }, [year])
+  const months = useMemo(() => getYearMonths(year), [year])
 
   return (
     <div className={cl.wrapper}>

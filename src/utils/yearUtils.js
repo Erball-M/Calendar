@@ -1,4 +1,5 @@
 import { MonthNames } from '../constans/dateNames'
+import { yearRange } from '../constans/availableRanges'
 
 export const getYearMonths = (year) => {
     const res = []
@@ -31,4 +32,17 @@ export const getDaysWithIndent = (month) => {
         indentDays.push(`indentDay${i}`)
     }
     return [...indentDays, ...month.days]
+}
+
+export const checkYearInRange = (year) => {
+    const [from, to] = yearRange
+    if (isNaN(year)) {
+        return `/${new Date().getFullYear()}`
+    } else if (year >= from && year <= to) {
+        return false
+    } else if (year < from) {
+        return `/${from}`
+    } else if (year > to) {
+        return `/${to}`
+    }
 }
