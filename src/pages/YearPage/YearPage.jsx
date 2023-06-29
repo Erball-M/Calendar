@@ -6,7 +6,11 @@ const YearPage = () => {
   const { year } = useParams()
 
   return (
-    <div>YearPage {year}</div>
+    <div className={cl.wrapper}>
+      <div className={cl.grid}>
+
+      </div>
+    </div>
   )
 }
 
