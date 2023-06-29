@@ -5,13 +5,16 @@ import cl from './YearPage.module.scss'
 import { YearMonth } from '../../components/components'
 
 const YearPage = () => {
-  const { year } = useParams()
+  const params = useParams()
   const navigate = useNavigate()
+
+  const year = parseInt(params.year)
   useEffect(() => {
-    if (year < 1960) {
+    if (isNaN(year) || year < 1960) {
       navigate('/1960')
     }
   }, [year])
+
   const months = useMemo(() => {
     return (getYearMonths(year))
   }, [year])
