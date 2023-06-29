@@ -46,7 +46,7 @@ export function checkDateInRange(params) {
     const month = parseInt(params.month)
     const day = parseInt(params.day)
 
-    const res = ''
+    let res = ''
     if (year ?? false) {
         const yearInRange = checkYearInRange(year)
         res += yearInRange

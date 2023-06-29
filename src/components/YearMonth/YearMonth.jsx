@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { getDaysWithIndent } from '../../utils/yearUtils'
+import { getMonthDaysWithIndent } from '../../utils/dateUtils'
 import { WeekDayNames } from '../../constans/dateNames'
 import cl from './YearMonth.module.scss'
 
@@ -20,7 +20,7 @@ const WeekDaysRow = () => {
 
 const YearMonth = ({ month }) => {
     const hadnledMonthDays = useMemo(() => {
-        return (getDaysWithIndent(month))
+        return (getMonthDaysWithIndent(month))
     }, [month])
 
     return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getYearMonths, checkYearInRange } from '../../utils/yearUtils'
+import { checkDateInRange, getYearMonths } from '../../utils/dateUtils'
 import { YearMonth } from '../../components/components'
 import cl from './YearPage.module.scss'
 
@@ -8,15 +8,15 @@ const YearPage = () => {
   const params = useParams()
   const navigate = useNavigate()
 
-  const year = parseInt(params.year)
   useEffect(() => {
-    const isInRange = checkYearInRange(year)
-    if (isInRange) {
-      navigate(isInRange)
-    }
-  }, [year])
+    const isInRange = checkDateInRange(params)
+    // if (isInRange) {
+    //   navigate(isInRange)
+    // }
+    console.log(isInRange, 'isInRangeYearPage')
+  }, [params])
 
-  const months = useMemo(() => getYearMonths(year), [year])
+  const months = useMemo(() => getYearMonths(params.year), [params.year])
 
   return (
     <div className={cl.wrapper}>
