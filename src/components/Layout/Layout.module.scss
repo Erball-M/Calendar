@@ -1,0 +1,19 @@
+.layout {
+    width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
+
+.main {
+    height: 100vh;
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+}
+
+.calendar {
+    width: 100%;
+    overflow: auto;
+}
