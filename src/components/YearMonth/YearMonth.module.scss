@@ -1,0 +1,21 @@
+.month {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+
+.name {
+    font-size: var(--fz-l);
+    font-weight: 500;
+    text-transform: lowercase;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, auto);
+    gap: .5em;
+}
+
+.day {
+    text-align: center;
+}

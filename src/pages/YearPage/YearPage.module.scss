@@ -4,4 +4,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: var(--component-padding);
+}
+
+.grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 100%;
+    gap: 10px 30px;
 }
