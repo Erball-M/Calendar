@@ -8,10 +8,10 @@ function App() {
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route index element={<MonthPage />} />
-        <Route path='year/:year' element={<YearPage />} />
-        <Route path='month/:year/:month' element={<MonthPage />} />
-        <Route path='year/:year/:month/:week' element={<WeekPage />} />
-        <Route path='year/:year/:month/:day' element={<DayPage />} />
+        <Route path=':year' element={<YearPage />} />
+        <Route path=':year/:month' element={<MonthPage />} />
+        <Route path=':year/:month/:day' element={<DayPage />} />
+        <Route path=':year/:month/week/:week' element={<WeekPage />} />
       </Route>
     </Routes>
   )
