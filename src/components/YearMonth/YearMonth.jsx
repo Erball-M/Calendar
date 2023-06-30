@@ -1,36 +1,19 @@
 import React, { useMemo } from 'react'
+import classNames from 'classnames'
 import { getMonthDaysWithIndent } from '../../utils/dateUtils'
-import { WeekDayNames } from '../../constans/dateNames'
+import { WeekDaysRow } from '../components'
 import cl from './YearMonth.module.scss'
 
-const WeekDaysRow = () => {
-    return (
-        <>
-            {WeekDayNames.map(weekDay => (
-                <div
-                    key={weekDay}
-                    className={cl.day}
-                >
-                    {weekDay}
-                </div>
-            ))}
-        </>
-    )
-}
-
 const YearMonth = ({ month }) => {
-    const hadnledMonthDays = useMemo(() => {
-        return (getMonthDaysWithIndent(month))
-    }, [month])
-
+    console.log(month)
     return (
         <div className={cl.month}>
             <h3 className={cl.name}>{month.name}</h3>
+            <WeekDaysRow short />
             <div className={cl.grid}>
-                <WeekDaysRow />
-                {hadnledMonthDays.map(day => (
-                    <div key={day?.date || day} className={cl.day}>
-                        {day?.date || ''}
+                {month.days.map(day => (
+                    <div key={day.id} className={classNames(cl.day, day.isToday && cl.today)}>
+                        {day.date || ''}
                     </div>
                 ))}
             </div>

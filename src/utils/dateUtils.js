@@ -2,16 +2,25 @@ import { MonthNames } from '../constans/dateNames'
 import { YearRange, MonthRange } from '../constans/availableRanges'
 
 
-export function getYearMonths(year) {
-    const y = parseInt(year)
+export function getYearMonths(params) { //arguments: params
     const res = []
     for (let i = 0; i < MonthNames.length; i++) {
-        res.push(getMonthDays(y, i))
+        res.push(getMonthDays({ ...params, month: i }))
     }
     return res
 }
 
-export function getMonthDays(year, month) {
+function checkIsToday(params) {
+    const now = new Date()
+    const { day, month, year } = params
+    const res = (day == now.getDate())
+        && (month == now.getMonth())
+        && (year == now.getFullYear())
+    return res
+}
+export function getMonthDays(params) {
+    const { year, month } = params
+
     const name = MonthNames[month]
     const daysCount = new Date(year, month + 1, 0).getDate()
     const weekDayStartNumber = new Date(year, month).getDay()
@@ -19,8 +28,10 @@ export function getMonthDays(year, month) {
     const days = []
     for (let i = 0; i < daysCount; i++) {
         const day = {
+            id: i + 1,
             date: i + 1,
             notices: [],
+            isToday: checkIsToday({ ...params, day: i + 1 })
         }
         days.push(day)
     }
@@ -35,9 +46,9 @@ export function getMonthDays(year, month) {
 export function getMonthDaysWithIndent(month) {
     const indentDays = []
     for (let i = 0; i < month.indent; i++) {
-        indentDays.push(`indentDay${i}`)
+        indentDays.push({ id: `indentDay${i}`, date: '' })
     }
-    return [...indentDays, ...month.days]
+    return { ...month, days: [...indentDays, ...month.days] }
 }
 
 export function checkDateInRange(params) {

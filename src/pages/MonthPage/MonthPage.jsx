@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { checkDateInRange } from '../../utils/dateUtils'
+import React, { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
+import { getMonthDays } from '../../utils/dateUtils'
+import { usePathnameEffect, useMonthDays } from '../../hooks/hooks'
 import { } from '../../components/components'
 import cl from './MonthPage.module.scss'
-import { usePathnameEffect } from '../../hooks/usePathnameEffect'
 
 const MonthPage = () => {
     const params = useParams()
 
     usePathnameEffect(params)
 
+    const month = useMonthDays()
+    console.log(month)
+
     return (
-        <div>MonthPage {params.month}.{params.year}</div>
+        <div className={cl.wrapper}>
+            {month.days.map(item => <div key={item.date}>{item.date}</div>)}
+        </div>
     )
 }
 

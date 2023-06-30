@@ -1,16 +1,17 @@
-import React, { useEffect, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { checkDateInRange, getYearMonths } from '../../utils/dateUtils'
+import React, { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
+import { getYearMonths } from '../../utils/dateUtils'
+import { usePathnameEffect, useMonthDays } from '../../hooks/hooks'
 import { YearMonth } from '../../components/components'
 import cl from './YearPage.module.scss'
-import { usePathnameEffect } from '../../hooks/usePathnameEffect'
 
 const YearPage = () => {
   const params = useParams()
 
   usePathnameEffect(params)
 
-  const months = useMemo(() => getYearMonths(params.year), [params.year])
+  const months = useMonthDays()
+  console.log(months, 'yearMonths')
 
   return (
     <div className={cl.wrapper}>

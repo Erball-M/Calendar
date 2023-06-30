@@ -5,3 +5,4 @@ export { Header } from './Header/Header'
 export { Sidebar } from './Sidebar/Sidebar'
 
 export { YearMonth } from './YearMonth/YearMonth'
+export { WeekDaysRow } from './WeekDaysRow/WeekDaysRow'
