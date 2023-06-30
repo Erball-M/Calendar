@@ -3,18 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { checkDateInRange, getYearMonths } from '../../utils/dateUtils'
 import { YearMonth } from '../../components/components'
 import cl from './YearPage.module.scss'
+import { usePathnameEffect } from '../../hooks/usePathnameEffect'
 
 const YearPage = () => {
   const params = useParams()
-  const navigate = useNavigate()
 
-  useEffect(() => {
-    const isInRange = checkDateInRange(params)
-    // if (isInRange) {
-    //   navigate(isInRange)
-    // }
-    console.log(isInRange, 'isInRangeYearPage')
-  }, [params])
+  usePathnameEffect(params)
 
   const months = useMemo(() => getYearMonths(params.year), [params.year])
 

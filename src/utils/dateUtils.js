@@ -12,10 +12,9 @@ export function getYearMonths(year) {
 }
 
 export function getMonthDays(year, month) {
-    const handledMonth = month - 1
-    const name = MonthNames[handledMonth]
-    const daysCount = new Date(year, handledMonth + 1, 0).getDate()
-    const weekDayStartNumber = new Date(year, handledMonth).getDay()
+    const name = MonthNames[month]
+    const daysCount = new Date(year, month + 1, 0).getDate()
+    const weekDayStartNumber = new Date(year, month).getDay()
     const weekDayStart = weekDayStartNumber === 0 ? 6 : weekDayStartNumber - 1
     const days = []
     for (let i = 0; i < daysCount; i++) {
@@ -35,60 +34,60 @@ export function getMonthDays(year, month) {
 
 export function getMonthDaysWithIndent(month) {
     const indentDays = []
-    for (let i = 0; i < month.weekDayStart; i++) {
+    for (let i = 0; i < month.indent; i++) {
         indentDays.push(`indentDay${i}`)
     }
     return [...indentDays, ...month.days]
 }
 
 export function checkDateInRange(params) {
-    const year = parseInt(params.year)
-    const month = parseInt(params.month)
-    const day = parseInt(params.day)
+    const pathname = window.location.pathname
 
-    let res = ''
-    if (year ?? false) {
-        const yearInRange = checkYearInRange(year)
-        res += yearInRange
+    const correctedParams = []
+    if (params.year) {
+        const yearInRange = checkYearInRange(params)
+        correctedParams.push(yearInRange)
     }
-    if (month ?? false) {
-        const monthInRange = checkMonthInRange(month)
-        res += monthInRange
+    if (params.month) {
+        const monthInRange = checkMonthInRange(params)
+        correctedParams.push(monthInRange)
     }
-    if (day ?? false) {
+    if (params.day) {
 
     }
-    return res
+
+    const res = correctedParams.map(param => ('/' + param)).join('')
+    return pathname === res ? false : res
 }
 
-function checkYearInRange(year) {
-    const y = parseInt(year)
+function checkYearInRange(params) {
+    const y = parseInt(params.year)
     const [from, to] = YearRange
     if (isNaN(y)) {
         return `/${new Date().getFullYear()}`
     } else if (y >= from && y <= to) {
-        return `${year}`
+        return (y)
     } else if (y < from) {
-        return `/${from}`
+        return (from)
     } else if (y > to) {
-        return `/${to}`
+        return (to)
     }
 }
 
-function checkMonthInRange(year, month) {
-    const y = parseInt(year)
+function checkMonthInRange(params) {
+    const y = parseInt(params.year)
     const isCurrentYear = new Date().getFullYear() === y
-    const m = parseInt(month)
+    const m = parseInt(params.month)
     const [from, to] = MonthRange
 
     if (isNaN(m) || m < from || m > to) {
         if (isCurrentYear) {
             const currentMonth = new Date().getMonth() + 1
-            return `/${currentMonth}`
+            return (currentMonth)
         } else {
-            return `/1`
+            return (1)
         }
     } else {
-        return `/${month}`
+        return (m)
     }
 }

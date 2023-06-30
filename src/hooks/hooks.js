@@ -1,0 +1,1 @@
+export { usePathnameEffect } from './usePathnameEffect'
