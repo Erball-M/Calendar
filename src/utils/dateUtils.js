@@ -76,7 +76,7 @@ function checkYearInRange(params) {
     const y = parseInt(params.year)
     const [from, to] = YearRange
     if (isNaN(y)) {
-        return `/${new Date().getFullYear()}`
+        return (new Date().getFullYear())
     } else if (y >= from && y <= to) {
         return (y)
     } else if (y < from) {
@@ -88,13 +88,14 @@ function checkYearInRange(params) {
 
 function checkMonthInRange(params) {
     const y = parseInt(params.year)
-    const isCurrentYear = new Date().getFullYear() === y
+    const isCurrentYear = (new Date().getFullYear()) === y
     const m = parseInt(params.month)
     const [from, to] = MonthRange
-
-    if (isNaN(m) || m < from || m > to) {
+    if (isNaN(m)) {
+        return ''
+    } else if (m < from || m > to) {
         if (isCurrentYear) {
-            const currentMonth = new Date().getMonth() + 1
+            const currentMonth = (new Date().getMonth() + 1)
             return (currentMonth)
         } else {
             return (1)
@@ -102,4 +103,9 @@ function checkMonthInRange(params) {
     } else {
         return (m)
     }
+}
+
+export function getDefaultPathname() {
+    const date = new Date()
+    return `/${date.getFullYear()}/${date.getMonth() + 1}`
 }

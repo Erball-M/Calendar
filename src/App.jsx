@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { getDefaultPathname } from './utils/dateUtils'
 import { Layout } from './components/components'
 import { YearPage, MonthPage, WeekPage, DayPage } from './pages/pages'
 
@@ -9,7 +10,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Layout />}>
-        <Route index element={<MonthPage />} />
+        <Route index element={<Navigate to={getDefaultPathname()} />} />
         <Route path=':year' element={<YearPage />} />
         <Route path=':year/:month' element={<MonthPage />} />
         <Route path=':year/:month/:day' element={<DayPage />} />
