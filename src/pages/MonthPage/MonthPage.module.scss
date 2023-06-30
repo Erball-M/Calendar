@@ -1,4 +1,9 @@
-.wrapper {
-    width: 100%;
-    height: 100%;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, auto);
+    grid-auto-rows: calc((100% - var(--WeekRow-height)) / 5);
+
+    &>* {
+        scroll-snap-align: start;
+    }
 }

@@ -6,3 +6,4 @@ export { Sidebar } from './Sidebar/Sidebar'
 
 export { YearMonth } from './YearMonth/YearMonth'
 export { WeekDaysRow } from './WeekDaysRow/WeekDaysRow'
+export { MonthDay } from './MonthDay/MonthDay'

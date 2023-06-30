@@ -1,0 +1,42 @@
+.day {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 5px;
+    border-bottom: var(--cell-border);
+    padding: 5px;
+    overflow: hidden;
+}
+
+.even {
+    background: var(--primary);
+}
+
+.odd {
+    background: var(--secondary-50);
+}
+
+.day__header {
+    font-size: var(--fz-l);
+    color: var(--secondary-200);
+}
+
+.day__header_today {
+    &::before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 5px;
+        background: red;
+        margin-bottom: 5px;
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.list__item {}

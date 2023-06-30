@@ -5,11 +5,15 @@ import { getMonthDays, getMonthDaysWithIndent, getYearMonths } from "../utils/da
 export const useMonthDays = () => {
     const params = useParams()
     const handledParams = useMemo(() => ({ ...params, month: (parseInt(params.month) - 1) }), [params])
-    console.log(handledParams)
 
     const res = useMemo(() => {
         if (handledParams.year && !isNaN(handledParams.month)) {
-            return getMonthDays(handledParams)
+            // const month = getMonthDays(handledParams)
+            // const monthWithIndents = getMonthDaysWithIndent(month)
+            // return monthWithIndents
+
+            const months = getYearMonths(handledParams)
+            return months.map((e, i) => i === 0 ? getMonthDaysWithIndent(e) : e)
         }
         const yearMonths = getYearMonths(handledParams)
         const yearMonthsWithIndents = yearMonths.map(month => getMonthDaysWithIndent(month))

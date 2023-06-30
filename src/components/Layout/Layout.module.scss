@@ -11,9 +11,12 @@
     display: grid;
     grid-template-rows: auto 1fr;
     overflow: hidden;
+    background: var(--primary);
+    color: inherit;
 }
 
 .calendar {
     width: 100%;
-    overflow: auto;
+    height: 100%;
+    overflow: hidden;
 }

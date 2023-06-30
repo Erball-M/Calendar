@@ -29,9 +29,10 @@ export function getMonthDays(params) {
     for (let i = 0; i < daysCount; i++) {
         const day = {
             id: i + 1,
-            date: i + 1,
+            date: !i ? ('01.' + `0${month + 1}`.slice(-2)) : i + 1,
             notices: [],
-            isToday: checkIsToday({ ...params, day: i + 1 })
+            isToday: checkIsToday({ ...params, day: i + 1 }),
+            oddMonth: !!((month + 1) % 2),
         }
         days.push(day)
     }

@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
-import { getMonthDays } from '../../utils/dateUtils'
+import classNames from 'classnames'
 import { usePathnameEffect, useMonthDays } from '../../hooks/hooks'
-import { } from '../../components/components'
+import { WeekDaysRow, MonthDay } from '../../components/components'
 import cl from './MonthPage.module.scss'
 
 const MonthPage = () => {
@@ -10,13 +10,23 @@ const MonthPage = () => {
 
     usePathnameEffect(params)
 
-    const month = useMonthDays()
-    console.log(month)
+    // const month = useMonthDays()
+    const year = useMonthDays()
 
     return (
-        <div className={cl.wrapper}>
-            {month.days.map(item => <div key={item.date}>{item.date}</div>)}
-        </div>
+        <>
+            <WeekDaysRow />
+            <div className={classNames(cl.grid, 'scrollContainer')}>
+                {
+                    year.map(month => (
+                        <Fragment key={month.name}>
+                            {month.days.map(day => (<MonthDay key={day.id} day={day} />))}
+                        </Fragment>
+                    ))
+                }
+                {/* {month.days.map(day => (<MonthDay key={day.id} day={day} />))} */}
+            </div >
+        </>
     )
 }
 
