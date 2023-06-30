@@ -8,6 +8,7 @@
     --brand-100: #CFE4F8;
     --brand-200: #106EBE;
     --brand-300: #114F82;
+    --brand-opposite: #fff;
 
     --container-width: 1200px;
     --container-padding: 15px;
@@ -35,9 +36,10 @@ body[data-theme=dark] {
     --primary: #333;
     --text: #fff;
 
-    --secondary-100: #ccc;
-    --secondary-200: #7e7e7e;
-    --secondary-300: #7e7e7e;
+    --secondary-50: #4f4f4f;
+    --secondary-100: #595858;
+    --secondary-200: #b9b9b9;
+    --secondary-300: #272727;
 
     --cell-border: 1px solid var(--secondary-100);
     --row-border: 3px solid var(--secondary-100);

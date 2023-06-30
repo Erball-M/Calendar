@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
-import { getYearMonths } from '../../utils/dateUtils'
 import { usePathnameEffect, useMonthDays } from '../../hooks/hooks'
 import { YearMonth } from '../../components/components'
 import cl from './YearPage.module.scss'

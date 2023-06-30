@@ -1,4 +1,5 @@
 export { Button } from './UI/Button/Button'
+export { Toggler } from './UI/Toggler/Toggler'
 
 export { Container } from './Container/Container'
 export { Layout } from './Layout/Layout'

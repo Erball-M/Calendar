@@ -12,4 +12,19 @@
 
 .navigate {}
 
-.controls {}
+.controls {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+
+.btnsGroup {
+    display: flex;
+}
+
+.separatedBtn {
+    border-right: var(--cell-border);
+    border-color: var(--secondary-200);
+}
