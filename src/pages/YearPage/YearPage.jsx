@@ -11,7 +11,6 @@ const YearPage = () => {
   usePathnameEffect(params)
 
   const months = useMonthDays()
-  console.log(months, 'yearMonths')
 
   return (
     <div className={cl.wrapper}>

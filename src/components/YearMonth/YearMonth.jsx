@@ -5,7 +5,6 @@ import { WeekDaysRow } from '../components'
 import cl from './YearMonth.module.scss'
 
 const YearMonth = ({ month }) => {
-    console.log(month)
     return (
         <div className={cl.month}>
             <h3 className={cl.name}>{month.name}</h3>

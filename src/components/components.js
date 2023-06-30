@@ -1,3 +1,5 @@
+export { Button } from './UI/Button/Button'
+
 export { Container } from './Container/Container'
 export { Layout } from './Layout/Layout'
 
