@@ -4,14 +4,22 @@
     justify-content: flex-start;
     align-items: center;
     gap: .4em;
-    // height: calc(1em + (2*var(--form-padding-y)));
     padding: var(--form-padding-y) var(--form-padding-x);
     font-size: var(--fz-r);
+}
+
+svg {
+    width: 1.5em;
+    height: 1.5em;
+    object-fit: contain;
+    object-position: center;
 }
 
 .default {
     background: none;
     color: var(--text);
+    fill: var(--text);
+    stroke: var(--text);
 
     &:hover {
         background: var(--secondary-100);
@@ -20,18 +28,4 @@
 
 .large {
     font-size: var(--fz-l);
-}
-
-.ico {
-    color: var(--text);
-    fill: var(--text);
-    stroke: var(--text);
-    height: 1.5em;
-
-    svg {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center;
-    }
 }

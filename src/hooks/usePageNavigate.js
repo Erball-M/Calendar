@@ -1,6 +1,7 @@
 import { useMemo } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { getWeekNumber } from "../utils/dateUtils"
+import { YearRange, MonthRange } from "../constans/availableRanges"
 
 export const usePageNavigate = () => {
     const navigate = useNavigate()
@@ -43,6 +44,19 @@ export const usePageNavigate = () => {
             todayNavigate: () => {
                 const date = new Date()
                 const url = `/${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+                if (url === window.location.pathname) return
+                navigate(url)
+            },
+            next: () => {
+                console.log(params, 'next')
+            },
+            prev: () => {
+                const { year, month = 0, day = 0, week = 0 } = Object.fromEntries(Object.entries(params).map(item => [item[0], +item[1]]))
+
+                const date = new Date(year, month, day)
+                const last = year && month && day && week
+
+                const url = ``
                 if (url === window.location.pathname) return
                 navigate(url)
             },

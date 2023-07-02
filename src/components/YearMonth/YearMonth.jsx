@@ -6,7 +6,7 @@ import cl from './YearMonth.module.scss'
 const YearMonth = ({ month }) => {
     return (
         <div className={cl.month}>
-            <h3 className={cl.name}>{month.name}</h3>
+            <h3 className={cl.name}>{month.caption}</h3>
             <WeekDaysRow short className={cl.week} />
             <div className={cl.grid}>
                 {month.days.map(day => (

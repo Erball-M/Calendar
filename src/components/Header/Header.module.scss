@@ -10,7 +10,17 @@
     overflow: hidden;
 }
 
-.navigate {}
+.navigate {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.caption {
+    font-size: var(--fz-xl);
+    color: var(--brand-200);
+    cursor: default;
+}
 
 .controls {
     display: flex;

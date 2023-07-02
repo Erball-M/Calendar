@@ -4,7 +4,6 @@ import cl from './Button.module.scss'
 
 const Button = ({
     children,
-    ico,
     className,
     variant = 'default',
     large,
@@ -20,7 +19,6 @@ const Button = ({
             )}
             {...props}
         >
-            {ico && <div className={cl.ico}>{ico}</div>}
             {children}
         </button>
     )

@@ -6,6 +6,8 @@ export const useMonthDays = () => {
     const params = useParams()
     const handledParams = useMemo(() => ({ ...params, month: (parseInt(params.month) - 1) }), [params])
 
+    // Need to add prev and next YearMonthsArray for dynamic rendering
+
     const res = useMemo(() => {
         if (handledParams.year && !isNaN(handledParams.month)) {
             // const month = getMonthDays(handledParams)
