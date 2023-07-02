@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import classNames from 'classnames'
-import { getMonthDaysWithIndent } from '../../utils/dateUtils'
 import { WeekDaysRow } from '../components'
 import cl from './YearMonth.module.scss'
 
@@ -12,7 +11,7 @@ const YearMonth = ({ month }) => {
             <div className={cl.grid}>
                 {month.days.map(day => (
                     <div key={day.id} className={classNames(cl.day, day.isToday && cl.today)}>
-                        {day.date || ''}
+                        {day.caption}
                     </div>
                 ))}
             </div>

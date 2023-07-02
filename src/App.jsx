@@ -14,7 +14,7 @@ function App() {
         <Route path=':year' element={<YearPage />} />
         <Route path=':year/:month' element={<MonthPage />} />
         <Route path=':year/:month/:day' element={<DayPage />} />
-        <Route path=':year/:month/week/:week' element={<WeekPage />} />
+        <Route path=':year/:month/:day/:week' element={<WeekPage />} />
       </Route>
     </Routes>
   )

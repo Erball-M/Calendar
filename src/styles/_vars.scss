@@ -29,7 +29,7 @@ body[data-theme=light] {
     --secondary-300: #666666;
 
     --cell-border: 1px solid var(--secondary-100);
-    --row-border: 3px solid var(--secondary-100);
+    --row-border: 2px solid var(--secondary-100);
 }
 
 body[data-theme=dark] {
@@ -42,5 +42,5 @@ body[data-theme=dark] {
     --secondary-300: #272727;
 
     --cell-border: 1px solid var(--secondary-100);
-    --row-border: 3px solid var(--secondary-100);
+    --row-border: 2px solid var(--secondary-100);
 }

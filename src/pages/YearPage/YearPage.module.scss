@@ -8,10 +8,11 @@
 }
 
 .grid {
+    // max-width: 100%;
+    max-width: var(--container-width);
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: stretch;
     flex-wrap: wrap;
-    max-width: 100%;
     gap: 10px 30px;
 }

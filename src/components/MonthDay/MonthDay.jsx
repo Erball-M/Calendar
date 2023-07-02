@@ -15,11 +15,11 @@ const MonthDay = ({ day }) => {
     //     { id: 9, caption: 'заметка 9' },
     // ]
     return (
-        <div key={day.id} className={classNames(cl.day, day.oddMonth ? cl.odd : cl.even)}>
+        <div key={day.id} className={classNames(cl.day, 'scrollContainer_element', (day.month % 2) ? cl.odd : cl.even)}>
             <div
                 className={classNames(cl.day__header, day.isToday && cl.day__header_today,)}
             >
-                {day.date}
+                {day.caption}
             </div>
             <div className={cl.day__body}>
                 <ul className={cl.list}>

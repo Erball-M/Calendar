@@ -22,7 +22,12 @@ const Header = () => {
     // const weekNavigate = () => navigate('/')
     // const dayNavigate = () => navigate('/')
 
-    const { yearNavigate, monthNavigate, dayNavigate } = usePageNavigate()
+    const {
+        yearNavigate,
+        monthNavigate,
+        dayNavigate,
+        weekNavigate,
+        todayNavigate, } = usePageNavigate()
 
     return (
         <div className={cl.header}>
@@ -32,20 +37,20 @@ const Header = () => {
                     <div className={cl.btnsGroup}>
                         <Button
                             ico={<DayIco />}
-                            onClick={() => console.log('click')}
+                            onClick={todayNavigate}
                             className={cl.separatedBtn}
                         >
                             Сегодня
                         </Button>
                         <Button
                             ico={<DayIco />}
-                            onClick={() => console.log('click')}
+                            onClick={dayNavigate}
                         >
                             День
                         </Button>
                         <Button
                             ico={<WeekIco />}
-                            onClick={() => console.log('click')}
+                            onClick={weekNavigate}
                         >
                             Неделя
                         </Button>

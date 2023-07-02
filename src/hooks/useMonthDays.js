@@ -13,7 +13,10 @@ export const useMonthDays = () => {
             // return monthWithIndents
 
             const months = getYearMonths(handledParams)
-            return months.map((e, i) => i === 0 ? getMonthDaysWithIndent(e) : e)
+            return months.map((el, i) => {
+                el.days[0].caption = ('01.' + `0${el.id}`.slice(-2))
+                return (i === 0 ? getMonthDaysWithIndent(el) : el)
+            })
         }
         const yearMonths = getYearMonths(handledParams)
         const yearMonthsWithIndents = yearMonths.map(month => getMonthDaysWithIndent(month))

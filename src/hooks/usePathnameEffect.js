@@ -1,8 +1,9 @@
 import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { checkDateInRange } from "../utils/dateUtils"
 
-export const usePathnameEffect = (params) => {
+export const usePathnameEffect = () => {
+    const params = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {

@@ -1,12 +1,21 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import classNames from 'classnames'
+import { usePathnameEffect } from '../../hooks/usePathnameEffect'
+import { HoursLayout, Day, WeekDaysRow } from '../../components/components'
 import cl from './DayPage.module.scss'
 
 const DayPage = () => {
-    const { year, month, day } = useParams()
-
+    usePathnameEffect()
     return (
-        <div>DayPage {day}.{month}.{year}</div>
+        <>
+            <WeekDaysRow weekDay={1} />
+            {/* weekDay={0} */}
+            <div className={classNames('scrollContainer')}>
+                <HoursLayout>
+                    <Day />
+                </HoursLayout>
+            </div>
+        </>
     )
 }
 

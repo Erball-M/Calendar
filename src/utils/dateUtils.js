@@ -21,7 +21,7 @@ function checkIsToday(params) {
 export function getMonthDays(params) {
     const { year, month } = params
 
-    const name = MonthNames[month]
+    const caption = MonthNames[month]
     const daysCount = new Date(year, month + 1, 0).getDate()
     const weekDayStartNumber = new Date(year, month).getDay()
     const weekDayStart = weekDayStartNumber === 0 ? 6 : weekDayStartNumber - 1
@@ -29,18 +29,22 @@ export function getMonthDays(params) {
     for (let i = 0; i < daysCount; i++) {
         const day = {
             id: i + 1,
-            date: !i ? ('01.' + `0${month + 1}`.slice(-2)) : i + 1,
+            caption: i + 1,
             notices: [],
             isToday: checkIsToday({ ...params, day: i + 1 }),
-            oddMonth: !!((month + 1) % 2),
+            month: month + 1,
+            weekDay: (weekDayStart + i) % 7,
+            weekNumber: Math.ceil((i + 1 + weekDayStart) / 7),
         }
         days.push(day)
     }
     return ({
-        name,
+        id: month + 1,
+        caption,
         days,
         daysCount,
         indent: weekDayStart,
+        weeksCount: Math.ceil(daysCount / 7),
     })
 }
 
@@ -54,35 +58,36 @@ export function getMonthDaysWithIndent(month) {
 
 export function checkDateInRange(params) {
     const pathname = window.location.pathname
+    const paramsClone = { ...params }
 
-    const correctedParams = []
-    if (params.year) {
-        const yearInRange = checkYearInRange(params)
-        correctedParams.push(yearInRange)
+    if (paramsClone.year) {
+        const yearInRange = checkYearInRange(paramsClone)
+        paramsClone.year = yearInRange
     }
-    if (params.month) {
-        const monthInRange = checkMonthInRange(params)
-        correctedParams.push(monthInRange)
+    if (paramsClone.month) {
+        const monthInRange = checkMonthInRange(paramsClone)
+        paramsClone.month = monthInRange
     }
-    if (params.day) {
+    if (paramsClone.day) {
+        const dayInRange = checkDayInRange(paramsClone)
+        paramsClone.day = dayInRange
+    }
+    if (paramsClone.week) {
+        const weekInRange = checkWeekInRange(paramsClone)
+        paramsClone.week = weekInRange
+    }
 
-    }
-
-    const res = correctedParams.map(param => ('/' + param)).join('')
-    return pathname === res ? false : res
+    const url = Object.values(paramsClone).map(param => `/${param}`).join('')
+    return pathname === url ? false : url
 }
 
 function checkYearInRange(params) {
     const y = parseInt(params.year)
-    const [from, to] = YearRange
+
     if (isNaN(y)) {
         return (new Date().getFullYear())
-    } else if (y >= from && y <= to) {
-        return (y)
-    } else if (y < from) {
-        return (from)
-    } else if (y > to) {
-        return (to)
+    } else {
+        return correctByRange(y, YearRange)
     }
 }
 
@@ -90,22 +95,78 @@ function checkMonthInRange(params) {
     const y = parseInt(params.year)
     const isCurrentYear = (new Date().getFullYear()) === y
     const m = parseInt(params.month)
-    const [from, to] = MonthRange
+
     if (isNaN(m)) {
-        return ''
-    } else if (m < from || m > to) {
         if (isCurrentYear) {
-            const currentMonth = (new Date().getMonth() + 1)
-            return (currentMonth)
+            return (new Date().getMonth() + 1)
         } else {
             return (1)
         }
     } else {
-        return (m)
+        return correctByRange(m, MonthRange)
+    }
+}
+function checkDayInRange(params) {
+    const y = parseInt(params.year)
+    const isCurrentYear = (new Date().getFullYear()) === y
+    const m = parseInt(params.month)
+    const isCurrentMonth = (new Date().getMonth()) === m
+    const d = parseInt(params.day)
+
+    const dayRange = [1, (new Date(y, m, 0).getDate())]
+
+    if (isNaN(d)) {
+        if (isCurrentYear && isCurrentMonth) {
+            return (new Date().getDate())
+        } else {
+            return (1)
+        }
+    } else {
+        return correctByRange(d, dayRange)
+    }
+}
+
+function checkWeekInRange(params) {
+    const y = parseInt(params.year)
+    const isCurrentYear = (new Date().getFullYear()) === y
+    const m = parseInt(params.month)
+    const isCurrentMonth = (new Date().getMonth()) === m
+    const d = parseInt(params.day)
+    const isCurrentDay = (new Date().getDate()) === d
+    const w = parseInt(params.week)
+
+    const weekDayStartNumber = new Date(y, m - 1).getDay() - 1
+    const daysCount = new Date(y, m, 0).getDate()
+    const weeksCount = Math.ceil((daysCount + weekDayStartNumber) / 7)
+    const weekRange = [1, weeksCount]
+    const currentWeek = Math.ceil((d + weekDayStartNumber) / 7)
+    const handledWeek = correctByRange(currentWeek, weekRange)
+
+    return (handledWeek)
+}
+
+function correctByRange(value, range) {
+    const [from, to] = range
+
+    if (value >= from && value <= to) {
+        return (value)
+    } else if (value < from) {
+        return (from)
+    } else if (value > to) {
+        return (to)
     }
 }
 
 export function getDefaultPathname() {
     const date = new Date()
     return `/${date.getFullYear()}/${date.getMonth() + 1}`
+}
+
+export function getWeekNumber(params) {
+    const { year, month = 1, day = 1 } = params
+
+    const weekDayStartNumber = new Date(year, month).getDay()
+    const weekDayStart = weekDayStartNumber === 0 ? 6 : weekDayStartNumber - 1
+    const weekNumber = Math.ceil((day + weekDayStart) / 7)
+    return weekNumber
 }
