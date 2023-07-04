@@ -6,7 +6,6 @@ import cl from './MonthPage.module.scss'
 
 const MonthPage = () => {
     usePathnameEffect()
-    useScrollNavigate()
 
     const year = useMonthDays()
 

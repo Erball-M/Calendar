@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { usePageNavigate } from '../../hooks/hooks'
+import { usePageNavigate, useScrollNavigate } from '../../hooks/hooks'
 import { MonthNames } from '../../constans/dateNames'
 import { Container, Button, Toggler } from '../components'
 import { YearIco, MonthIco, WeekIco, DayIco, KebabMenuIco, ArrowIco } from '../../images/images'
@@ -8,6 +8,8 @@ import cl from './Header.module.scss'
 
 const Header = () => {
     const params = useParams()
+
+    const forcedScroll = useScrollNavigate()
 
     // TEMPORARY!!!
     const [theme, setTheme] = useState(false)
@@ -25,7 +27,7 @@ const Header = () => {
         todayNavigate,
         next,
         prev
-    } = usePageNavigate()
+    } = usePageNavigate(forcedScroll)
 
     return (
         <div className={cl.header}>

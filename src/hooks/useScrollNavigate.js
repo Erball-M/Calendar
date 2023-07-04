@@ -9,7 +9,6 @@ export const useScrollNavigate = () => {
     const [autoScrollPermission, setAutoScrollPermission] = useState(true)
 
     useEffect(() => {
-        console.log('scroll', autoScrollPermission)
         if (autoScrollPermission) {
             const lastParam = pathname.split('/').at(-1)
             const anchor = document.querySelector(`[data-anchor="${lastParam}"]`)
@@ -53,4 +52,6 @@ export const useScrollNavigate = () => {
         const url = params.map(item => `/${item}`).join('')
         navigate(url)
     }, [currentAnchor])
+
+    return setAutoScrollPermission
 }
