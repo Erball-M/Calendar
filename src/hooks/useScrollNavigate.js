@@ -6,13 +6,17 @@ export const useScrollNavigate = () => {
     const navigate = useNavigate()
     const lastParam = useMemo(() => pathname.split('/').filter(item => item !== '').at(-1), [])
     const [currentAnchor, setCurrentAnchor] = useState(lastParam)
+    const [autoScrollPermission, setAutoScrollPermission] = useState(true)
 
     useEffect(() => {
-        const lastParam = pathname.split('/').at(-1)
-        const anchor = document.querySelector(`[data-anchor="${lastParam}"]`)
-        if (!anchor) return
-        anchor.scrollIntoView()
-    }, [pathname])
+        console.log('scroll', autoScrollPermission)
+        if (autoScrollPermission) {
+            const lastParam = pathname.split('/').at(-1)
+            const anchor = document.querySelector(`[data-anchor="${lastParam}"]`)
+            if (!anchor) return
+            anchor.scrollIntoView()
+        }
+    }, [pathname, autoScrollPermission])
 
     useEffect(() => {
         const scrollContainer = document.querySelector('.scrollContainer')
@@ -33,8 +37,18 @@ export const useScrollNavigate = () => {
         scrollContainer.addEventListener('scroll', scrollHandler)
         return () => scrollContainer.removeEventListener('scroll', scrollHandler)
     }, [])
+
     useEffect(() => {
         const params = pathname.split('/').filter(item => item !== '')
+        const prevLastParam = +params.at(-1)
+        const nextLastParam = +currentAnchor
+
+        if (prevLastParam >= nextLastParam) {
+            setAutoScrollPermission(false)
+        } else {
+            setAutoScrollPermission(true)
+        }
+
         params[params.length - 1] = currentAnchor
         const url = params.map(item => `/${item}`).join('')
         navigate(url)
