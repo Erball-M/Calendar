@@ -9,7 +9,6 @@ const DayPage = () => {
     return (
         <>
             <WeekDaysRow weekDay={1} />
-            {/* weekDay={0} */}
             <div className={classNames('scrollContainer')}>
                 <HoursLayout>
                     <Day />

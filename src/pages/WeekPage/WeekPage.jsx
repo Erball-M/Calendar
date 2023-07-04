@@ -9,12 +9,9 @@ const WeekPage = () => {
     return (
         <>
             <WeekDaysRow />
-            {/* weekDay={0} */}
-            <div className={classNames('scrollContainer')}>
-                <HoursLayout>
-                    {[0, 1, 2, 3, 4, 5, 6].map(i => <Day key={i} />)}
-                </HoursLayout>
-            </div>
+            <HoursLayout>
+                {[0, 1, 2, 3, 4, 5, 6].map(i => <Day key={i} />)}
+            </HoursLayout>
         </>
     )
 }

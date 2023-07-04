@@ -1,15 +1,17 @@
 import { useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { checkLocation } from "../utils/dateUtils"
 
 export const usePathnameEffect = () => {
     const params = useParams()
     const navigate = useNavigate()
+    const { pathname } = useLocation()
 
     useEffect(() => {
         const checkedUrl = checkLocation(params)
-        if (checkedUrl) {
-            navigate(checkedUrl)
+        if (checkedUrl === pathname) {
+            return
         }
+        navigate(checkedUrl)
     }, [params])
 }

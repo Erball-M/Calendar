@@ -1,21 +1,21 @@
 import { useMemo } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import { getLinks, paramsURL, prettifyParams, } from "../utils/dateUtils"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
+import { getLinks } from "../utils/dateUtils"
 
 export const usePageNavigate = () => {
     const navigate = useNavigate()
     const params = useParams()
+    const { pathname } = useLocation()
 
     const handleNavigate = (url) => {
-        if (url === window.location.pathname) {
+        if (url === pathname) {
             return
         }
         navigate(url)
     }
 
-    const { year, month, day, week, today } = useMemo(() => {
+    const { year, month, day, week, today, next, prev } = useMemo(() => {
         const links = getLinks(params)
-        console.log(links, 'useMemo getLinks')
         return links
     }, [params])
 
@@ -36,17 +36,10 @@ export const usePageNavigate = () => {
             handleNavigate(today)
         },
         next: () => {
-            console.log('next')
+            handleNavigate(next)
         },
         prev: () => {
-            // const { year, month = 0, day = 0, week = 0 } = Object.fromEntries(Object.entries(params).map(item => [item[0], +item[1]]))
-
-            // const date = new Date(year, month, day)
-            // const last = year && month && day && week
-
-            // const url = `/`
-            // handleNavigate(url)
-            console.log('prev')
+            handleNavigate(prev)
         },
     }
 

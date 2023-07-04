@@ -2,16 +2,16 @@ import { MonthNames } from '../constans/dateNames'
 import { YearRange, MonthRange } from '../constans/availableRanges'
 
 
-export function getYearMonths(params) { // PRETTY => PRETTY
+export function getYearMonths(prettyParams) { // PRETTY => PRETTY
     const res = []
     for (let i = 1; i <= MonthNames.length; i++) {
-        res.push(getMonthDays({ ...params, month: i }))
+        res.push(getMonthDays({ ...prettyParams, month: i }))
     }
     return res
 }
 
-export function getMonthDays(params) { // PRETTY => UGLY | PRETTY
-    const uglifiedParams = uglifyParams(params) // CLONED, CONVERTED AND UGLIFIED
+export function getMonthDays(prettyParams) { // PRETTY => UGLY | PRETTY
+    const uglifiedParams = uglifyParams(prettyParams) // CLONED, CONVERTED AND UGLIFIED
 
     const caption = MonthNames[uglifiedParams.month]
     const daysCount = getDaysCount(uglifiedParams)
@@ -51,16 +51,77 @@ export function getMonthDaysWithIndent(month) {
 
 // RANGE CHECKERS
 
-export function checkLocation(params) { // PRETTY => PRETTY
-    const pathname = window.location.pathname
-    const correctedParams = correctParams(params)
-
-    const url = paramsURL(correctedParams)
-    return pathname === url ? false : url
+export function checkLocation(prettyParams) { // PRETTY => PRETTY
+    const correctedParams = correctParams(prettyParams)
+    return paramsURL(correctedParams)
 }
 
-export function getLinks(params) { // PRETTY => PRETTY
-    const { year, month, day, week } = correctParams(params, true)
+function getNeededRange(prettifyParams) { // PRETTY => ANY
+    const uglifiedParams = uglifyParams(prettifyParams)
+    const lastKey = Object.keys(prettifyParams).at(-1)
+    let neededRange = null
+    switch (lastKey) {
+        case ('year'):
+            neededRange = YearRange
+            break;
+        case ('month'):
+            neededRange = MonthRange
+            break;
+        case ('day'):
+            neededRange = getDaysRange(uglifiedParams)
+            break;
+        case ('week'):
+            neededRange = getWeeksRange(uglifiedParams)
+            break;
+    }
+    return neededRange
+}
+
+function getNeighborParams(prettyParams, up = true) { // PRETTY => UGLY =>  PRETTY
+    const uglifiedParams = uglifyParams(prettyParams) // UGLY
+
+    const keys = Object.keys(uglifiedParams).reverse()
+    const paramsArray = Object.entries(uglifiedParams).reverse()
+
+    const prettyParamsArray = Object.entries(prettyParams).reverse()
+    const ranges = keys.reduce((acc, key, index) => {
+        const needParamsArray = prettyParamsArray.slice(index)
+        const needParams = Object.fromEntries(needParamsArray.reverse())
+        acc[key] = getNeededRange(needParams)
+        return acc
+    }, {})
+
+    for (let i = 0; i < paramsArray.length; i++) {
+        const newValue = paramsArray[i][1] + (up ? 1 : -1)
+
+        const min = ranges[paramsArray[i][0]][0]
+        const max = ranges[paramsArray[i][0]][1]
+
+        if (newValue >= min && newValue <= max) {
+            if (paramsArray[i][0] !== 'week') {
+                paramsArray[i] = [paramsArray[i][0], newValue]
+            } else {
+                paramsArray[i + 1] = [paramsArray[i + 1][0], paramsArray[i + 1][1] + (up ? 7 : -7)]
+            }
+            break
+        } else if (newValue > max) {
+            paramsArray[i] = [paramsArray[i][0], 0]
+        } else {
+            const placeholder = up ? 0 : 1e6
+            paramsArray[i] = [paramsArray[i][0], placeholder]
+        }
+    }
+
+    const prettifiedParams = prettifyParams(Object.fromEntries(paramsArray.reverse())) // PRETTY
+    const correctedByRanges = correctParams(prettifiedParams)
+    return correctedByRanges
+}
+
+export function getLinks(prettyParams) { // PRETTY => PRETTY
+    const { year, month, day, week } = correctParams(prettyParams, true)
+
+    const next = getNeighborParams(prettyParams, true)
+    const prev = getNeighborParams(prettyParams, false)
 
     const links = {
         year: paramsURL({ year }),
@@ -68,27 +129,29 @@ export function getLinks(params) { // PRETTY => PRETTY
         day: paramsURL({ year, month, day }),
         week: paramsURL({ year, month, day, week }),
         today: paramsURL(getTodayParams()),
+        next: paramsURL(next),
+        prev: paramsURL(prev),
     }
 
     return links
 }
 
-export function correctParams(params, supplemented = false) { // PRETTY => UGLY => PRETTY
-    const uglifiedParams = uglifyParams(params) // CONVERTED, CLONED AND UGLIFIED
+export function correctParams(prettyParams, supplement = false) { // PRETTY => UGLY => PRETTY
+    const uglifiedParams = uglifyParams(prettyParams) // CONVERTED, CLONED AND UGLIFIED
 
-    if (supplemented || 'year' in uglifiedParams) {
+    if (supplement || 'year' in uglifiedParams) {
         const yearInRange = checkYearInRange(uglifiedParams)
         uglifiedParams.year = yearInRange
     }
-    if (supplemented || 'month' in uglifiedParams) {
+    if (supplement || 'month' in uglifiedParams) {
         const monthInRange = checkMonthInRange(uglifiedParams)
         uglifiedParams.month = monthInRange
     }
-    if (supplemented || 'day' in uglifiedParams) {
+    if (supplement || 'day' in uglifiedParams) {
         const dayInRange = checkDayInRange(uglifiedParams)
         uglifiedParams.day = dayInRange
     }
-    if (supplemented || 'week' in uglifiedParams) {
+    if (supplement || 'week' in uglifiedParams) {
         const weekInRange = checkWeekInRange(uglifiedParams)
         uglifiedParams.week = weekInRange
     }
@@ -97,8 +160,8 @@ export function correctParams(params, supplemented = false) { // PRETTY => UGLY 
     return prettifiedParams
 }
 
-export function checkYearInRange(params) { // UGLY => UGLY
-    const { year: y } = params // ALREADY CONVERTED
+export function checkYearInRange(uglyParams) { // UGLY => UGLY
+    const { year: y } = uglyParams // ALREADY CONVERTED
 
     if (isNaN(y)) {
         const currentYear = new Date().getFullYear()
@@ -108,10 +171,10 @@ export function checkYearInRange(params) { // UGLY => UGLY
     }
 }
 
-export function checkMonthInRange(params) { // UGLY => UGLY
-    const { month: m } = params // ALREADY CONVERTED
+export function checkMonthInRange(uglyParams) { // UGLY => UGLY
+    const { month: m } = uglyParams // ALREADY CONVERTED
 
-    const isCurrentYear = checkCurrentYear(params)
+    const isCurrentYear = checkCurrentYear(uglyParams)
 
     if (isNaN(m)) {
         if (isCurrentYear) {
@@ -124,13 +187,13 @@ export function checkMonthInRange(params) { // UGLY => UGLY
         return correctByRange(m, MonthRange)
     }
 }
-export function checkDayInRange(params) { // UGLY => UGLY
-    const { day: d } = params // ALREADY CONVERTED
+export function checkDayInRange(uglyParams) { // UGLY => UGLY
+    const { day: d } = uglyParams // ALREADY CONVERTED
 
-    const isCurrentYear = checkCurrentYear(params)
-    const isCurrentMonth = checkCurrentMonth(params)
+    const isCurrentYear = checkCurrentYear(uglyParams)
+    const isCurrentMonth = checkCurrentMonth(uglyParams)
 
-    const dayRange = getDaysRange(params)
+    const dayRange = getDaysRange(uglyParams)
 
     if (isNaN(d)) {
         if (isCurrentYear && isCurrentMonth) {
@@ -144,9 +207,9 @@ export function checkDayInRange(params) { // UGLY => UGLY
     }
 }
 
-export function checkWeekInRange(params) { // UGLY => ANY
-    const weekRange = getWeeksRange(params)
-    const week = getWeekNumber(params)
+export function checkWeekInRange(uglyParams) { // UGLY => ANY
+    const weekRange = getWeeksRange(uglyParams)
+    const week = getWeekNumber(uglyParams)
 
     const handledWeek = correctByRange(week, weekRange)
     return handledWeek
@@ -166,8 +229,8 @@ function correctByRange(value, range) { // UGLY => UGLY
 
 // YEAR
 
-export function checkCurrentYear(params) { // UGLY => ANY
-    const { year } = convertParams(params)
+export function checkCurrentYear(uglyParams) { // UGLY => ANY
+    const { year } = convertParams(uglyParams)
     const current = new Date().getFullYear()
 
     const isCurrent = (current === year)
@@ -176,34 +239,34 @@ export function checkCurrentYear(params) { // UGLY => ANY
 
 // MONTH
 
-export function checkCurrentMonth(params) { // UGLY => ANY
-    const { month } = convertParams(params)
+export function checkCurrentMonth(uglyParams) { // UGLY => ANY
+    const { month } = convertParams(uglyParams)
     const current = new Date().getMonth()
 
-    const isCurrent = ((current === month) && checkCurrentYear(params))
+    const isCurrent = ((current === month) && checkCurrentYear(uglyParams))
     return isCurrent
 }
 
 // DAY
 
-export function getDaysCount(params) { // UGLY => ANY
-    const { year: y, month: m } = convertParams(params)
+export function getDaysCount(uglyParams) { // UGLY => ANY
+    const { year: y, month: m } = convertParams(uglyParams)
 
     const count = new Date(y, m + 1, 0).getDate()
     return count
 }
 
-export function getDaysRange(params) { // UGLY => ANY
-    const to = getDaysCount(params)
+export function getDaysRange(uglyParams) { // UGLY => ANY
+    const to = getDaysCount(uglyParams)
     const range = [1, to]
     return range
 }
 
-export function checkCurrentDay(params) { // UGLY => ANY
-    const { day } = convertParams(params)
+export function checkCurrentDay(uglyParams) { // UGLY => ANY
+    const { day } = convertParams(uglyParams)
     const current = new Date().getDate()
 
-    const isCurrent = ((current === day) && checkCurrentMonth(params))
+    const isCurrent = ((current === day) && checkCurrentMonth(uglyParams))
     return isCurrent
 }
 
@@ -212,39 +275,39 @@ export function getTodayParams() { // ANY => PRETTY
     const params = prettifyParams({
         year: date.getFullYear(),
         month: date.getMonth(),
-        day: date.getDay(),
+        day: date.getDate(),
     })
     return params
 }
 
 // WEEK
 
-export function getWeekNumber(params) { // UGLY => PRETTY
-    const { day: d } = convertParams(params)
+export function getWeekNumber(uglyParams) { // UGLY => PRETTY
+    const { day: d } = convertParams(uglyParams)
 
-    const weekDayStartNumber = getStartWeekDay(params) - 1 //new Date(y, m - 1).getDay() - 1
+    const weekDayStartNumber = getStartWeekDay(uglyParams) - 1 //new Date(y, m - 1).getDay() - 1
     const weekNumber = Math.ceil((d + weekDayStartNumber) / 7)
 
     return weekNumber
 }
 
-export function getWeeksRange(params) { // UGLY => PRETTY
-    const weeksCount = getWeeksCount(params)
+export function getWeeksRange(uglyParams) { // UGLY => PRETTY
+    const weeksCount = getWeeksCount(uglyParams)
 
     const weekRange = [1, weeksCount]
     return weekRange
 }
 
-export function getWeeksCount(params) { // UGLY => UGLY
-    const weekDayStartNumber = getStartWeekDay(params)
-    const daysCount = getDaysCount(params)
+export function getWeeksCount(uglyParams) { // UGLY => UGLY
+    const weekDayStartNumber = getStartWeekDay(uglyParams)
+    const daysCount = getDaysCount(uglyParams)
 
     const weeksCount = Math.ceil((daysCount + weekDayStartNumber) / 7)
     return weeksCount
 }
 
-export function getStartWeekDay(params) { // UGLY => UGLY
-    const { year: y, month: m } = convertParams(params)
+export function getStartWeekDay(uglyParams) { // UGLY => UGLY
+    const { year: y, month: m } = convertParams(uglyParams)
 
     const weekDay = new Date(y, m, 0).getDay()
     //const res = weekDay === 0 ? 6 : (weekDay - 1)
@@ -259,8 +322,8 @@ export function convertParams(params) { // ANY => ANY
     return convertedParams
 }
 
-export function prettifyParams(params) {// UGLY => PRETTY
-    const convertedParams = convertParams(params)
+export function prettifyParams(uglyParams) {// UGLY => PRETTY
+    const convertedParams = convertParams(uglyParams)
     const keys = Object.keys(convertedParams)
 
     const res = {}
@@ -280,8 +343,8 @@ export function prettifyParams(params) {// UGLY => PRETTY
     })
     return res
 }
-export function uglifyParams(params) { // PRETTY => UGLY
-    const convertedParams = convertParams(params)
+export function uglifyParams(prettyParams) { // PRETTY => UGLY
+    const convertedParams = convertParams(prettyParams)
     const keys = Object.keys(convertedParams)
 
     const res = {}
@@ -309,9 +372,9 @@ export function getDefaultPathname() { // ANY => ANY
     return `/${date.getFullYear()}/${date.getMonth() + 1}`
 }
 
-export function paramsURL(params) {
-    const keys = Object.keys(params)
+export function paramsURL(prettyParams) { // PRETTY => PRETTY
+    const keys = Object.keys(prettyParams)
     let url = ''
-    keys.forEach(key => url += `/${params[key]}`)
+    keys.forEach(key => url += `/${prettyParams[key]}`)
     return url
 }

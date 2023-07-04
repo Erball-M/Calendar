@@ -7,7 +7,6 @@ import cl from './MonthPage.module.scss'
 const MonthPage = () => {
     usePathnameEffect()
 
-    // const month = useMonthDays()
     const year = useMonthDays()
 
     return (
@@ -21,7 +20,6 @@ const MonthPage = () => {
                         </Fragment>
                     ))
                 }
-                {/* {month.days.map(day => (<MonthDay key={day.id} day={day} />))} */}
             </div >
         </>
     )
