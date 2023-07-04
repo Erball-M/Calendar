@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { useMonthDays, usePathnameEffect } from '../../hooks/hooks'
+import { useMonthDays, usePathnameEffect, useScrollNavigate } from '../../hooks/hooks'
 import { WeekDaysRow, MonthDay } from '../../components/components'
 import cl from './MonthPage.module.scss'
 
 const MonthPage = () => {
     usePathnameEffect()
+    useScrollNavigate()
 
     const year = useMonthDays()
 
