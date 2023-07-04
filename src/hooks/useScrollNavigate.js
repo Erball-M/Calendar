@@ -7,15 +7,21 @@ export const useScrollNavigate = () => {
     const lastParam = useMemo(() => pathname.split('/').filter(item => item !== '').at(-1), [])
     const [currentAnchor, setCurrentAnchor] = useState(lastParam)
     const [autoScrollPermission, setAutoScrollPermission] = useState(true)
+    const paramsLength = pathname.split('/').filter(item => item !== '').length
 
     useEffect(() => {
         if (autoScrollPermission) {
             const lastParam = pathname.split('/').at(-1)
             const anchor = document.querySelector(`[data-anchor="${lastParam}"]`)
             if (!anchor) return
+            // AUTOSCROLL WORKS CUZ NEW PATHNAME
             anchor.scrollIntoView()
         }
     }, [pathname, autoScrollPermission])
+
+    useEffect(() => {
+        setAutoScrollPermission(true)
+    }, [paramsLength])
 
     useEffect(() => {
         const scrollContainer = document.querySelector('.scrollContainer')
@@ -35,7 +41,7 @@ export const useScrollNavigate = () => {
 
         scrollContainer.addEventListener('scroll', scrollHandler)
         return () => scrollContainer.removeEventListener('scroll', scrollHandler)
-    }, [])
+    }, [paramsLength])
 
     useEffect(() => {
         const params = pathname.split('/').filter(item => item !== '')

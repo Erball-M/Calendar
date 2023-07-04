@@ -20,7 +20,7 @@ export function getMonthDays(prettyParams) { // PRETTY => UGLY | PRETTY
     const days = []
     for (let i = 1; i <= daysCount; i++) {
         const day = {
-            id: i,
+            id: `${uglifiedParams.day}.${uglifiedParams.month}.${uglifiedParams.year}`,
             caption: i,
             notices: [],
             isToday: checkCurrentDay({ ...uglifiedParams, day: i }),
@@ -32,7 +32,7 @@ export function getMonthDays(prettyParams) { // PRETTY => UGLY | PRETTY
     }
 
     return ({
-        id: uglifiedParams.month,
+        id: `${uglifiedParams.month}.${uglifiedParams.year}`,// uglifiedParams.month,
         caption,
         days,
         daysCount,
@@ -56,7 +56,7 @@ export function checkLocation(prettyParams) { // PRETTY => PRETTY
     return paramsURL(correctedParams)
 }
 
-function getNeededRange(prettifyParams) { // PRETTY => ANY
+export function getNeededRange(prettifyParams) { // PRETTY => ANY
     const uglifiedParams = uglifyParams(prettifyParams)
     const lastKey = Object.keys(prettifyParams).at(-1)
     let neededRange = null
@@ -77,7 +77,7 @@ function getNeededRange(prettifyParams) { // PRETTY => ANY
     return neededRange
 }
 
-function getNeighborParams(prettyParams, up = true) { // PRETTY => UGLY =>  PRETTY
+export function getNeighborParams(prettyParams, up = true) { // PRETTY => UGLY =>  PRETTY
     const uglifiedParams = uglifyParams(prettyParams) // UGLY
 
     const keys = Object.keys(uglifiedParams).reverse()
