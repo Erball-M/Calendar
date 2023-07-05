@@ -20,19 +20,20 @@ export function getMonthDays(prettyParams) { // PRETTY => UGLY | PRETTY
     const days = []
     for (let i = 1; i <= daysCount; i++) {
         const day = {
-            id: `${uglifiedParams.day}.${uglifiedParams.month}.${uglifiedParams.year}`,
+            id: `${i}.${uglifiedParams.month + 1}.${uglifiedParams.year}`,
             caption: i,
             notices: [],
             isToday: checkCurrentDay({ ...uglifiedParams, day: i }),
             month: uglifiedParams.month + 1,
-            weekDay: (weekDayStart + i) % 7,
-            weekNumber: getWeekNumber(uglifiedParams),
+            year: uglifiedParams.year,
+            weekDay: (weekDayStart + i) % 7 || 7,
+            weekNumber: getWeekNumber({ ...uglifiedParams, day: i }),
         }
         days.push(day)
     }
 
     return ({
-        id: `${uglifiedParams.month}.${uglifiedParams.year}`,// uglifiedParams.month,
+        id: `${uglifiedParams.month + 1}.${uglifiedParams.year}`,// uglifiedParams.month,
         caption,
         days,
         daysCount,
@@ -47,6 +48,12 @@ export function getMonthDaysWithIndent(month) {
         indentDays.push({ id: `indentDay${i}`, date: '' })
     }
     return { ...month, days: [...indentDays, ...month.days] }
+}
+
+export function addIndentToYear(months) {
+    const firstMonthWithIndent = getMonthDaysWithIndent(months[0])
+    const res = [firstMonthWithIndent, ...months.slice(1)]
+    return res
 }
 
 // RANGE CHECKERS

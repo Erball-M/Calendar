@@ -5,7 +5,7 @@ import cl from './WeekDaysRow.module.scss'
 
 const WeekDaysRow = ({ weekDay, short, className }) => {
     const neededNames = short ? WeekDayNames : WeekDayFullNames
-    const handledWeekDays = isNaN(weekDay) ? neededNames : neededNames.filter((_, index) => index === weekDay)
+    const handledWeekDays = isNaN(weekDay) ? neededNames : neededNames.filter((_, index) => index === (weekDay - 1))
 
     return (
         <div className={classNames(cl.grid, !short && cl.fixedHeight, className)}>

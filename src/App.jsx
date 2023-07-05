@@ -5,7 +5,7 @@ import { Layout } from './components/components'
 import { YearPage, MonthPage, WeekPage, DayPage } from './pages/pages'
 
 function App() {
-  useEffect(() => document.body.setAttribute('data-theme', 'light'))
+  useEffect(() => document.body.setAttribute('data-theme', 'light'), [])
 
   return (
     <Routes>

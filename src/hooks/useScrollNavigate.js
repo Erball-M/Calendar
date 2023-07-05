@@ -1,29 +1,25 @@
-import { useEffect, useMemo, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 export const useScrollNavigate = () => {
+    const params = useParams()
     const { pathname } = useLocation()
     const navigate = useNavigate()
-    const lastParam = useMemo(() => pathname.split('/').filter(item => item !== '').at(-1), [])
-    const [currentAnchor, setCurrentAnchor] = useState(lastParam)
+
+    const [currentAnchor, setCurrentAnchor] = useState(null)
     const [autoScrollPermission, setAutoScrollPermission] = useState(true)
-    const paramsLength = pathname.split('/').filter(item => item !== '').length
 
     useEffect(() => {
         if (autoScrollPermission) {
-            const lastParam = pathname.split('/').at(-1)
-            const anchor = document.querySelector(`[data-anchor="${lastParam}"]`)
+            const link = pathname.split('/').slice(-2).join('/')
+            const anchor = document.querySelector(`[data-anchor="${link}"]`)
             if (!anchor) return
-            // AUTOSCROLL WORKS CUZ NEW PATHNAME
             anchor.scrollIntoView()
         }
     }, [pathname, autoScrollPermission])
 
     useEffect(() => {
         setAutoScrollPermission(true)
-    }, [paramsLength])
-
-    useEffect(() => {
         const scrollContainer = document.querySelector('.scrollContainer')
         const anchors = document.querySelectorAll('[data-anchor]')
 
@@ -41,12 +37,14 @@ export const useScrollNavigate = () => {
 
         scrollContainer.addEventListener('scroll', scrollHandler)
         return () => scrollContainer.removeEventListener('scroll', scrollHandler)
-    }, [paramsLength])
+    }, [params])
 
     useEffect(() => {
+        if (!currentAnchor) return
+
         const params = pathname.split('/').filter(item => item !== '')
-        const prevLastParam = +params.at(-1)
-        const nextLastParam = +currentAnchor
+        const prevLastParam = parseInt(params.slice(-2))
+        const nextLastParam = parseInt(currentAnchor)
 
         if (prevLastParam >= nextLastParam) {
             setAutoScrollPermission(false)
@@ -54,10 +52,8 @@ export const useScrollNavigate = () => {
             setAutoScrollPermission(true)
         }
 
-        params[params.length - 1] = currentAnchor
-        const url = params.map(item => `/${item}`).join('')
-        navigate(url)
+        navigate(currentAnchor)
     }, [currentAnchor])
 
-    return setAutoScrollPermission
+    return () => setAutoScrollPermission(true)
 }

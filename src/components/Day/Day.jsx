@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import cl from './Day.module.scss'
 
-const Day = () => {
+const Day = ({ day }) => {
     const hours = Array.from({ length: 24 }, (_, index) => index)
 
     return (

@@ -2,7 +2,7 @@ import { useMemo } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import { getLinks } from "../utils/dateUtils"
 
-export const usePageNavigate = (forcedScroll) => {
+export const usePageNavigate = (forceScroll) => {
     const navigate = useNavigate()
     const params = useParams()
     const { pathname } = useLocation()
@@ -36,11 +36,11 @@ export const usePageNavigate = (forcedScroll) => {
             handleNavigate(today)
         },
         next: () => {
-            forcedScroll(true)
+            forceScroll()
             handleNavigate(next)
         },
         prev: () => {
-            forcedScroll(true)
+            forceScroll()
             handleNavigate(prev)
         },
     }

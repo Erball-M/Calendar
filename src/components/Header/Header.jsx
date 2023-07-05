@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { usePageNavigate, useScrollNavigate } from '../../hooks/hooks'
 import { MonthNames } from '../../constans/dateNames'
@@ -9,7 +9,7 @@ import cl from './Header.module.scss'
 const Header = () => {
     const params = useParams()
 
-    const forcedScroll = useScrollNavigate()
+    const forceScroll = useScrollNavigate()
 
     // TEMPORARY!!!
     const [theme, setTheme] = useState(false)
@@ -19,6 +19,25 @@ const Header = () => {
         document.body.setAttribute('data-theme', newTheme)
     }
 
+    const prevBtnRef = useRef()
+    const nextBtnRef = useRef()
+
+    useEffect(() => {
+        function leafOver(e) {
+            const code = e.code
+            switch (code) {
+                case 'ArrowLeft':
+                    prevBtnRef.current.click()
+                    break
+                case 'ArrowRight':
+                    nextBtnRef.current.click()
+                    break
+            }
+        }
+        window.addEventListener('keydown', leafOver)
+        return () => window.removeEventListener('keydown', leafOver)
+    }, [])
+
     const {
         yearNavigate,
         monthNavigate,
@@ -27,17 +46,17 @@ const Header = () => {
         todayNavigate,
         next,
         prev
-    } = usePageNavigate(forcedScroll)
+    } = usePageNavigate(forceScroll)
 
     return (
         <div className={cl.header}>
             <Container className={cl.container}>
                 <div className={cl.navigate}>
                     <div className={cl.btnsGroup}>
-                        <Button onClick={prev} large>
+                        <Button onClick={prev} large ref={prevBtnRef}>
                             <ArrowIco style={{ rotate: '180deg' }} />
                         </Button>
-                        <Button onClick={next} large>
+                        <Button onClick={next} large ref={nextBtnRef}>
                             <ArrowIco />
                         </Button>
                     </div>
