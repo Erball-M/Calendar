@@ -20,12 +20,12 @@ export function getMonthDays(prettyParams) { // PRETTY => UGLY | PRETTY
     const days = []
     for (let i = 1; i <= daysCount; i++) {
         const day = {
-            id: `${i}.${uglifiedParams.month + 1}.${uglifiedParams.year}`,
+            id: `/${prettyParams.year}/${prettyParams.month}/${i}`,
             caption: i,
             notices: [],
             isToday: checkCurrentDay({ ...uglifiedParams, day: i }),
-            month: uglifiedParams.month + 1,
-            year: uglifiedParams.year,
+            month: prettyParams.month,
+            year: prettyParams.year,
             weekDay: (weekDayStart + i) % 7 || 7,
             weekNumber: getWeekNumber({ ...uglifiedParams, day: i }),
         }
@@ -33,7 +33,7 @@ export function getMonthDays(prettyParams) { // PRETTY => UGLY | PRETTY
     }
 
     return ({
-        id: `${uglifiedParams.month + 1}.${uglifiedParams.year}`,// uglifiedParams.month,
+        id: `${prettyParams.month}.${prettyParams.year}`,// uglifiedParams.month,
         caption,
         days,
         daysCount,
@@ -374,7 +374,7 @@ export function uglifyParams(prettyParams) { // PRETTY => UGLY
 
 // URL
 
-export function getDefaultPathname() { // ANY => ANY
+export function getDefaultPathname() { // ANY => PRETTY
     const date = new Date()
     return `/${date.getFullYear()}/${date.getMonth() + 1}`
 }

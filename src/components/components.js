@@ -2,7 +2,7 @@ export { Button } from './UI/Button/Button'
 export { Toggler } from './UI/Toggler/Toggler'
 
 export { Container } from './Container/Container'
-export { Layout } from './Layout/Layout'
+export { CalendarLayout } from './Layout/CalendarLayout'
 export { HoursLayout } from './HoursLayout/HoursLayout'
 
 export { Header } from './Header/Header'

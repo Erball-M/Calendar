@@ -38,3 +38,9 @@
     border-right: var(--cell-border);
     border-color: var(--secondary-200);
 }
+
+@media print {
+    .header {
+        display: none;
+    }
+}

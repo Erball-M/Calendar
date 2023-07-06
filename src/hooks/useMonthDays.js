@@ -7,8 +7,11 @@ export const useMonthDays = () => {
     // Need to add prev and next YearMonthsArray for dynamic rendering
 
     const res = useMemo(() => {
-        const currentYearMonths = getYearMonths({ year })
-        return currentYearMonths
+        // const currentYearMonths = getYearMonths({ year })
+        // return currentYearMonths
+
+        return getYearMonths({ year: 2023 })
+
         //const months = [...prevYearMonths, ...currentYearMonths, ...nextYearMonths]
     }, [year])
     return res

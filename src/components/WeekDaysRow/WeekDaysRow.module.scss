@@ -6,18 +6,14 @@
     align-items: center;
     color: var(--secondary-200);
     border-bottom: var(--row-border);
-    // background: var(--primary);
-}
-
-.fixedHeight {
-    height: var(--WeekRow-height);
 }
 
 .day {
     text-align: left;
-    padding: 0 5px;
+    padding: 10px 5px;
 }
 
-.center {
+.short {
     text-align: center;
+    padding: 0;
 }

@@ -21,3 +21,17 @@
     flex-grow: 1;
     display: flex;
 }
+
+@media print {
+    .wrapper {
+        height: 100%;
+    }
+
+    .hours {
+        grid-template-rows: repeat(24, minmax(30px, 150px));
+    }
+
+    .hour {
+        padding: 0;
+    }
+}

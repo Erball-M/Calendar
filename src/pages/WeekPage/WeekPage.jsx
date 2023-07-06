@@ -1,11 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
-import { usePathnameEffect } from '../../hooks/usePathnameEffect'
 import { Day, HoursLayout, WeekDaysRow } from '../../components/components'
 import cl from './WeekPage.module.scss'
 
 const WeekPage = () => {
-    usePathnameEffect()
     return (
         <>
             <WeekDaysRow />

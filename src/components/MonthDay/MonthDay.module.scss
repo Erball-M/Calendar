@@ -10,11 +10,11 @@
 }
 
 .even {
-    background: var(--primary);
+    background: var(--secondary-50);
 }
 
 .odd {
-    background: var(--secondary-50);
+    background: var(--primary);
 }
 
 .day__header {
@@ -40,3 +40,13 @@
 }
 
 .list__item {}
+
+@media print {
+    .day {
+        display: none;
+    }
+
+    .forPrint {
+        display: flex;
+    }
+}

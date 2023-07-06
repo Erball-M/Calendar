@@ -1,9 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import { usePathnameEffect } from '../../hooks/usePathnameEffect'
 import { Header, Sidebar } from '../components'
-import cl from './Layout.module.scss'
+import cl from './CalendarLayout.module.scss'
 
-const Layout = () => {
+const CalendarLayout = () => {
+    usePathnameEffect()
+
     return (
         <div className={cl.layout}>
             <Sidebar />
@@ -17,4 +20,4 @@ const Layout = () => {
     )
 }
 
-export { Layout }
+export { CalendarLayout }

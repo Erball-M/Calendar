@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { checkLocation } from "../utils/dateUtils"
+import { checkLocation, getDefaultPathname } from "../utils/dateUtils"
 
 export const usePathnameEffect = () => {
     const params = useParams()
@@ -10,6 +10,9 @@ export const usePathnameEffect = () => {
     useEffect(() => {
         const checkedUrl = checkLocation(params)
         if (checkedUrl === pathname) {
+            return
+        } else if (!Object.keys(params).length) {
+            navigate(getDefaultPathname())
             return
         }
         navigate(checkedUrl)
