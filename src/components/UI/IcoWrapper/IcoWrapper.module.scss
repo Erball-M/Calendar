@@ -1,0 +1,17 @@
+.ico {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+    fill: var(--text);
+    height: 1.5em;
+    width: 1.5em;
+
+    svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+}

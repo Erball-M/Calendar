@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useOutletContext, useParams } from 'react-router-dom'
 import classNames from 'classnames'
 import { getMonthDays } from '../../utils/dateUtils'
 import { HoursLayout, Day, WeekDaysRow } from '../../components/components'
@@ -7,9 +7,16 @@ import cl from './DayPage.module.scss'
 
 const DayPage = () => {
     const params = useParams()
-    const month = useMemo(() => getMonthDays(params), [params.month])
+    const months = useOutletContext()
 
-    const day = month.days.find(day => day.caption == params.day)
+    const month = useMemo(() => {
+        const needMonth = months.find(month => month.id.includes(`/${params.year}/${params.month}`))
+        return needMonth
+    }, [params.year, params.month])
+    const day = useMemo(() => {
+        const needDay = month.days.find(day => day.caption == params.day)
+        return needDay
+    }, [month, params.day])
 
     return (
         <>

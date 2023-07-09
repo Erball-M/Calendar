@@ -3,9 +3,12 @@ import classNames from 'classnames'
 import { useMonthDays } from '../../hooks/hooks'
 import { YearMonth } from '../../components/components'
 import cl from './YearPage.module.scss'
+import { useOutletContext } from 'react-router-dom'
 
 const YearPage = () => {
-  const months = useMonthDays()
+  // const months = useMonthDays()
+
+  const months = useOutletContext()
 
   return (
     <>

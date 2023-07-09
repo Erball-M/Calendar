@@ -1,17 +1,25 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
+import { useOutletContext, useParams } from 'react-router-dom'
 import classNames from 'classnames'
-import { useMonthDays, useScrollNavigate } from '../../hooks/hooks'
+import { useIDB, useMonthDays, useScrollNavigate } from '../../hooks/hooks'
 import { addIndentToYear, getNeighborParams, getYearMonths } from '../../utils/dateUtils'
-import { WeekDaysRow, MonthDay } from '../../components/components'
+import { WeekDaysRow, MonthDays } from '../../components/components'
 import cl from './MonthPage.module.scss'
 
 const MonthPage = () => {
     const { year } = useParams()
+    // const [months, setMonths] = useState(getYearMonths({ year }))
+    const months = useOutletContext()
+    const indenetedMonths = useMemo(() => addIndentToYear(months), [months, year])
 
-    const [months, setMonths] = useState(addIndentToYear(getYearMonths({ year })))
+    // useEffect(() => {
+    //     async function start() {
+    //         const months = await getAll()
+    //     }
+    //     start()
+    // }, [year, IDB])
 
-    // const [containerRef, addAnchor] = useScrollNavigate()
+    const [containerRef, addAnchor] = useScrollNavigate()
 
     // const months = useMonthDays(true)
     // useEffect(() => {
@@ -32,14 +40,9 @@ const MonthPage = () => {
     return (
         <>
             <WeekDaysRow />
-            <div className={classNames(cl.grid, 'scrollContainer')} > {/* ref={containerRef} */}
-                {
-                    months.map(month => (
-                        <Fragment key={month.id}>
-                            {month.days.map(day => (<MonthDay key={day.id} day={day} />))} {/* ref={addAnchor} */}
-                        </Fragment>
-                    ))
-                }
+            <div className={classNames(cl.grid, 'scrollContainer')} ref={containerRef}>
+                {indenetedMonths.map(month => (<MonthDays key={month.id} month={month} ref={addAnchor} />))}
+                {/* ref={containerRef} */}
             </div >
         </>
     )

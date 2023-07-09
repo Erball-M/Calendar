@@ -5,7 +5,7 @@ import cl from './Button.module.scss'
 const Button = forwardRef(({
     children,
     className,
-    variant = 'default',
+    variant = 'default', //transparent
     large,
     ...props
 }, ref) => {

@@ -4,26 +4,21 @@
     justify-content: flex-start;
     align-items: center;
     gap: .4em;
-    padding: var(--form-padding-y) var(--form-padding-x);
     font-size: var(--fz-r);
-}
-
-svg {
-    width: 1.5em;
-    height: 1.5em;
-    object-fit: contain;
-    object-position: center;
+    color: var(--text);
 }
 
 .default {
     background: none;
-    color: var(--text);
-    fill: var(--text);
-    stroke: var(--text);
+    padding: var(--form-padding-y) var(--form-padding-x);
 
     &:hover {
         background: var(--secondary-100);
     }
+}
+
+.transparent {
+    background: none;
 }
 
 .large {

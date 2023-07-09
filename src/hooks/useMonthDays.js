@@ -10,7 +10,8 @@ export const useMonthDays = () => {
         // const currentYearMonths = getYearMonths({ year })
         // return currentYearMonths
 
-        return getYearMonths({ year: 2023 })
+        const months = getYearMonths({ year })
+        return months
 
         //const months = [...prevYearMonths, ...currentYearMonths, ...nextYearMonths]
     }, [year])

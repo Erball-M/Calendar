@@ -1,82 +1,82 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 export const useScrollNavigate = () => {
-    const { pathname } = useLocation();
-    const navigate = useNavigate();
+    const { pathname } = useLocation()
+    const navigate = useNavigate()
 
-    const [currentAnchor, setCurrentAnchor] = useState(null);
-    const [autoScrollPermission, setAutoScrollPermission] = useState(true);
+    const [currentAnchor, setCurrentAnchor] = useState(null)
+    const [autoScrollPermission, setAutoScrollPermission] = useState(true)
 
-    const containerRef = useRef();
-    const anchorRefs = useRef([]);
-    anchorRefs.current = [];
+    const containerRef = useRef()
+    const anchorRefs = useRef([])
+    anchorRefs.current = []
 
     const addAnchor = (el) => {
         if (el && !anchorRefs.current.includes(el)) {
-            anchorRefs.current.push(el);
+            anchorRefs.current.push(el)
         }
-    };
+    }
 
     useEffect(() => {
-        console.log('event added')
-        const scrollContainer = containerRef.current;
-        const anchors = anchorRefs.current;
+        // console.log('event added')
+        const scrollContainer = containerRef.current
+        const anchors = anchorRefs.current
 
         const scrollHandler = () => {
             for (let i = 0; i < anchors.length; i++) {
-                const anchor = anchors[i];
-                const coords = anchor.getBoundingClientRect();
-                const anchorTop = coords.top - coords.height;
+                const anchor = anchors[i]
+                const coords = anchor.getBoundingClientRect()
+                const anchorTop = coords.top - coords.height
 
                 if (anchorTop <= 0) {
-                    setCurrentAnchor(anchor);
-                    setAutoScrollPermission(true);
+                    setCurrentAnchor(anchor)
+                    setAutoScrollPermission(true)
                 }
             }
-        };
+        }
 
-        scrollContainer.addEventListener("scroll", scrollHandler);
-        return () => scrollContainer.removeEventListener("scroll", scrollHandler)
-    }, [containerRef.current, anchorRefs.current[0]?.dataset.anchor]);
+        scrollContainer.addEventListener('scroll', scrollHandler)
+        return () => scrollContainer.removeEventListener('scroll', scrollHandler)
+    }, [containerRef.current, anchorRefs.current[0]?.dataset.anchor])
 
     useEffect(() => {
-        console.log('auto scroll is ' + autoScrollPermission)
+        // console.log('auto scroll is ' + autoScrollPermission)
         if (autoScrollPermission) {
             const anchor = anchorRefs.current.find(
                 (anchor) => anchor.dataset?.anchor === pathname
-            );
+            )
             if (anchor) {
-                anchor.scrollIntoView();
+                anchor.scrollIntoView()
             }
-            setAutoScrollPermission(false);
+            setAutoScrollPermission(false)
         }
-    }, [pathname]);
+    }, [pathname])
 
     useEffect(() => {
         if (!currentAnchor) {
-            console.log('navigatiion is cancled')
-            return;
+            // console.log('navigatiion is cancled')
+            return
         }
-        console.log('navigatiion')
+        // console.log('navigatiion')
 
-        const prevLastParam = parseInt(pathname.split("/").at(-1));
+        const prevLastParam = parseInt(pathname.split('/').at(-1))
         const nextLastParam = parseInt(
-            currentAnchor.dataset.anchor.split("/").at(-1)
-        );
+            currentAnchor.dataset.anchor.split('/').at(-1)
+        )
 
         if (prevLastParam >= nextLastParam) {
-            setAutoScrollPermission(false);
+            setAutoScrollPermission(false)
         } else {
-            setAutoScrollPermission(true);
+            setAutoScrollPermission(true)
         }
 
-        const newUrl = currentAnchor.dataset.anchor;
-        navigate(newUrl);
-    }, [currentAnchor]);
+        const newUrl = currentAnchor.dataset.anchor
+        navigate(newUrl)
+    }, [currentAnchor])
 
-    return [containerRef, addAnchor];
-};
+    return [containerRef, addAnchor]
+}
 
 
 // export const useScrollNavigate = () => {
@@ -92,7 +92,7 @@ export const useScrollNavigate = () => {
 //     useLayoutEffect(() => {
 //         if (autoScrollPermission) {
 //             const link = pathname.split('/').slice(-2).join('/')
-//             const anchor = document.querySelector(`[data-anchor="${link}"]`)
+//             const anchor = document.querySelector(`[data-anchor='${link}']`)
 //             if (!anchor) return
 //             anchor.scrollIntoView()
 //         }

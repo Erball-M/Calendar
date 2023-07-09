@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { getMonthDaysWithIndent } from '../../utils/dateUtils'
 import { WeekDaysRow } from '../components'
@@ -8,7 +9,7 @@ const YearMonth = ({ month }) => {
     const monthWithIndet = getMonthDaysWithIndent(month)
 
     return (
-        <div className={cl.month}>
+        <Link to={month.id} className={cl.month}>
             <h3 className={cl.name}>{month.caption}</h3>
             <WeekDaysRow short className={cl.week} />
             <div className={cl.grid}>
@@ -18,7 +19,7 @@ const YearMonth = ({ month }) => {
                     </div>
                 ))}
             </div>
-        </div>
+        </Link>
     )
 }
 

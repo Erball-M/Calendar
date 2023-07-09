@@ -2,10 +2,10 @@ import { MonthNames } from '../constans/dateNames'
 import { YearRange, MonthRange } from '../constans/availableRanges'
 
 
-export function getYearMonths(prettyParams) { // PRETTY => PRETTY
+export function getYearMonths(year) { // ANY => ANY
     const res = []
     for (let i = 1; i <= MonthNames.length; i++) {
-        res.push(getMonthDays({ ...prettyParams, month: i }))
+        res.push(getMonthDays({ year, month: i }))
     }
     return res
 }
@@ -33,7 +33,7 @@ export function getMonthDays(prettyParams) { // PRETTY => UGLY | PRETTY
     }
 
     return ({
-        id: `${prettyParams.month}.${prettyParams.year}`,// uglifiedParams.month,
+        id: `/${prettyParams.year}/${prettyParams.month}`,// uglifiedParams.month,
         caption,
         days,
         daysCount,
@@ -51,10 +51,13 @@ export function getMonthDaysWithIndent(month) {
 }
 
 export function addIndentToYear(months) {
-    const firstMonthWithIndent = getMonthDaysWithIndent(months[0])
-    const res = [firstMonthWithIndent, ...months.slice(1)]
+    const clone = JSON.parse(JSON.stringify(months))
+    const firstMonthWithIndent = getMonthDaysWithIndent(clone[0])
+    const res = [firstMonthWithIndent, ...clone.slice(1)]
     return res
 }
+
+export function getWeekDays() { }
 
 // RANGE CHECKERS
 
@@ -160,6 +163,7 @@ export function correctParams(prettyParams, supplement = false) { // PRETTY => U
     }
     if (supplement || 'week' in uglifiedParams) {
         const weekInRange = checkWeekInRange(uglifiedParams)
+        // uglifiedParams.day = 1
         uglifiedParams.week = weekInRange
     }
 
@@ -384,4 +388,24 @@ export function paramsURL(prettyParams) { // PRETTY => PRETTY
     let url = ''
     keys.forEach(key => url += `/${prettyParams[key]}`)
     return url
+}
+
+// NOTICES
+
+export function splitPathname(pathname) {
+    const paramsArray = pathname.split('/').filter(item => item !== '')
+    const paramsKeys = ['year', 'month', 'day', 'week']
+    const params = {}
+    paramsKeys.forEach((key, index) => {
+        if (paramsArray[index]) {
+            params[key] = paramsArray[index]
+        }
+    })
+    return params
+}
+
+export function getDateString(pathname) {
+    const { year, month, day } = splitPathname(pathname)
+    const dateString = `${year}-${`${month}`.padStart(2, '0')}-${day ? `${day}`.padStart(2, '0') : '01'}`
+    return dateString
 }

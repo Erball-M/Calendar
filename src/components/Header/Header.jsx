@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { usePageNavigate } from '../../hooks/hooks'
 import { MonthNames } from '../../constans/dateNames'
-import { Container, Button, Toggler } from '../components'
+import { Container, Button, Toggler, IcoWrapper } from '../components'
 import { YearIco, MonthIco, WeekIco, DayIco, KebabMenuIco, ArrowIco } from '../../images/images'
 import cl from './Header.module.scss'
 
@@ -54,10 +54,14 @@ const Header = () => {
                 <div className={cl.navigate}>
                     <div className={cl.btnsGroup}>
                         <Button onClick={prev} large ref={prevBtnRef}>
-                            <ArrowIco style={{ rotate: '180deg' }} />
+                            <IcoWrapper>
+                                <ArrowIco style={{ rotate: '180deg' }} />
+                            </IcoWrapper>
                         </Button>
                         <Button onClick={next} large ref={nextBtnRef}>
-                            <ArrowIco />
+                            <IcoWrapper>
+                                <ArrowIco />
+                            </IcoWrapper>
                         </Button>
                     </div>
                     <h2 className={cl.caption}>{MonthNames[params.month - 1]} {params.year} г.</h2>
@@ -68,27 +72,39 @@ const Header = () => {
                             onClick={todayNavigate}
                             className={cl.separatedBtn}
                         >
-                            <DayIco />
+                            <IcoWrapper>
+                                <DayIco />
+                            </IcoWrapper>
                             Сегодня
                         </Button>
                         <Button onClick={dayNavigate}>
-                            <DayIco />
+                            <IcoWrapper>
+                                <DayIco />
+                            </IcoWrapper>
                             День
                         </Button>
                         <Button onClick={weekNavigate}>
-                            <WeekIco />
+                            <IcoWrapper>
+                                <WeekIco />
+                            </IcoWrapper>
                             Неделя
                         </Button>
                         <Button onClick={monthNavigate}>
-                            <MonthIco />
+                            <IcoWrapper>
+                                <MonthIco />
+                            </IcoWrapper>
                             Месяц
                         </Button>
                         <Button onClick={yearNavigate}>
-                            <YearIco />
+                            <IcoWrapper>
+                                <YearIco />
+                            </IcoWrapper>
                             Год
                         </Button>
                         <Button onClick={() => print()}>
-                            <KebabMenuIco />
+                            <IcoWrapper>
+                                <KebabMenuIco />
+                            </IcoWrapper>
                         </Button>
                     </div>
                     <Toggler value={theme} onClick={themeToggler}>

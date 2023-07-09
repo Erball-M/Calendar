@@ -1,0 +1,24 @@
+.label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.input {
+    display: none;
+}
+
+.checkbox {
+    border: var(--cell-border);
+    width: var(--fz-l);
+    height: var(--fz-l);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-white);
+
+    &:hover {
+        background: var(--secondary-100);
+    }
+}

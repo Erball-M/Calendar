@@ -1,0 +1,65 @@
+.select {
+    display: inline-block;
+    position: relative;
+    user-select: none;
+}
+
+.label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    &:hover {
+        background: var(--brand-100);
+    }
+}
+
+.opened {
+    background: var(--brand-100);
+}
+
+.title {
+    padding: var(--form-padding-y) var(--form-padding-x);
+}
+
+.ico {
+    rotate: 180deg;
+}
+
+.wrapper {
+    background: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 101;
+}
+
+.list {
+    width: 100%;
+    position: absolute;
+    z-index: 102;
+    background: var(--primary);
+    border: var(--cell-border);
+}
+
+.option {
+    cursor: pointer;
+    padding: var(--form-padding-y) var(--form-padding-x);
+
+    &:hover {
+        background: var(--brand-100);
+    }
+
+    &:active {
+        background: var(--brand-200);
+        color: var(--brand-opposite);
+    }
+}
+
+.selected {
+    background: var(--brand-100);
+    border: 1px solid var(--brand-200);
+}

@@ -1,0 +1,47 @@
+.wrapper {
+    background: transparent;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.container {
+    display: inline-block;
+    min-width: 400px;
+    box-shadow: var(--box-shadow);
+    border: var(--cell-border);
+    position: relative;
+}
+
+.header {
+    width: 100%;
+    background: var(--color-red);
+    color: var(--color-white);
+    padding: var(--form-padding-y) var(--form-padding-x);
+}
+
+.btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    stroke: var(--color-white);
+    fill: var(--color-white);
+}
+
+.body {
+    padding: 30px var(--form-padding-x);
+    background: var(--primary);
+}
+
+.triangle {
+    position: absolute;
+}
+
+.ico {
+    fill: var(--primary);
+    stroke: var(--cell-border-color);
+    stroke-width: 1px;
+}

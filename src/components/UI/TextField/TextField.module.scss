@@ -1,0 +1,31 @@
+.label {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.textField {
+    flex-grow: 1;
+    display: block;
+    font-size: inherit;
+    padding: 0 var(--form-padding-y) var(--form-padding-y);
+    border-bottom: 1px solid var(--secondary-200);
+    background: none;
+    color: var(--text);
+
+    &::placeholder {
+        color: var(--placeholder-color);
+    }
+
+    &:disabled {
+        color: var(--placeholder-color);
+    }
+}
+
+.large {
+    font-size: var(--fz-l);
+
+    .textField {
+        border-color: var(--color-red);
+    }
+}
